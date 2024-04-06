@@ -2,7 +2,6 @@ from bs4 import BeautifulSoup as bs
 import requests
 
 
-URLs =[f"https://www.kinopoisk.ru/user/19185715/votes/list/vs/vote/page/{i}/#list" for i in range(1, 8)]
 RATINGS_TO_LETTERBOXD = {
     '1': '0.5',
     '2': '1',
@@ -33,12 +32,16 @@ def parse(url):
         films.append((title, year, rating))
     
     for film in films:
-        with open("films.txt", "a", encoding="utf-8") as file:
+        with open("films.txt", "w", encoding="utf-8") as file:
             print(film)
             file.write(','.join(film) + "\n")
 
 
 def main():
+    user_id = input("Input your user-account id")
+    rate_list_index = int(input("Input how many pages of your ratings"))
+    URLs =[f"https://www.kinopoisk.ru/user/{user_id}/votes/list/vs/vote/page/{i}/#list" for i in range(1, rate_list_index)]
+
     with open("films.txt", "a", encoding="utf-8") as file:
         file.write("Title,Year,Rating\n")
 
